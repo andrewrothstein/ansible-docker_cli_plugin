@@ -1,5 +1,9 @@
 ---
-- name: Testing andrewrothstein.docker_cli_plugin
+- name: Installing andrewrothstein.docker_binaries for testing
+  hosts: all
+  roles:
+    - role: andrewrothstein.docker_binaries
+- name: Testing andrewrothstein.docker_cli_plugin (docker-compose)
   hosts: all
   vars:
 #    docker_cli_plugin_persona: usr
@@ -33,7 +37,6 @@
         # https://github.com/docker/compose/releases/download/v2.26.0/docker-compose-windows-x86_64.exe
         windows-x86_64: sha256:0a9a63442f50b494e8c5b6b1af9da138d9dbbeab094e3076747a709a470bb9e9
   roles:
-    - role: andrewrothstein.docker_binaries
     - role: '{{ playbook_dir }}'
   tasks:
     - name: Executing 'docker compose version'
@@ -41,5 +44,47 @@
       changed_when: false
       register: docker_cli_plugin_test_output
     - name: Output of 'docker compose version'
+      ansible.builtin.debug:
+        msg: '{{ docker_cli_plugin_test_output.stdout }}'
+- name: Testing andrewrothstein.docker_cli_plugin (buildx)
+  hosts: all
+  vars:
+#    docker_cli_plugin_persona: usr
+    docker_cli_plugin_name: buildx
+    docker_cli_plugin_ver: 0.12.0
+    docker_cli_plugin_mirror: https://github.com/docker/buildx/releases/download
+    docker_cli_plugin_arch_map:
+      aarch64: arm64
+      arm64: arm64
+      x86_64: amd64
+    docker_cli_plugin_v_dot: true
+    docker_cli_plugin_checksums:
+      '0.12.0':
+        # https://github.com/docker/buildx/releases/download/v0.12.0/buildx-v0.12.0.linux-amd64
+        linux-amd64: sha256:7c393b92c148a0ce26c76a2abc99960be1d1097f0471978d41dc51d0c1a4471e
+        # https://github.com/docker/buildx/releases/download/v0.12.0/buildx-v0.12.0.linux-arm-v6
+        linux-arm-v6: sha256:62d9162f526c3bb7f67768a5b0d81a8b3ad0371406dfc1f0775e4f62dfca7fe1
+        # https://github.com/docker/buildx/releases/download/v0.12.0/buildx-v0.12.0.linux-arm-v7
+        linux-arm-v7: sha256:d941d6a5b072de775222d31d9f8467b4c1b1f56e3b08d1b78f828a9244c16464
+        # https://github.com/docker/buildx/releases/download/v0.12.0/buildx-v0.12.0.linux-arm64
+        linux-arm64: sha256:781caebb36551b035cb9dcfaf91088543d09c73c4a2549341e6417d86b8bbb50
+        # https://github.com/docker/buildx/releases/download/v0.12.0/buildx-v0.12.0.linux-ppc64le
+        linux-ppc64le: sha256:ab5bda4532528d6b0801c877999fce9def10c6a37624673fd13c668fdcde16b7
+        # https://github.com/docker/buildx/releases/download/v0.12.0/buildx-v0.12.0.linux-riscv64
+        linux-riscv64: sha256:a2b846919c44128c6db9165ad24545e7e10035b6f0ad01559fcfbb2a13017127
+        # https://github.com/docker/buildx/releases/download/v0.12.0/buildx-v0.12.0.linux-s390x
+        linux-s390x: sha256:81c2ada65624e2ac6bb4123f3a3bb933d04cfb08aa45fc55dd201ba523d96d30
+        # https://github.com/docker/buildx/releases/download/v0.12.0/buildx-v0.12.0.windows-amd64.exe
+        windows-amd64: sha256:dcf01329368381fae8c24b494186a30d2f1c4adb4bef7a0410b4803e5bb1c352
+        # https://github.com/docker/buildx/releases/download/v0.12.0/buildx-v0.12.0.windows-arm64.exe
+        windows-arm64: sha256:3ace30ecc39b214f80d92c7750c5fc51510ca0eee234aa015d89929c531a22d3
+  roles:
+    - role: '{{ playbook_dir }}'
+  tasks:
+    - name: Executing 'docker buildx version'
+      ansible.builtin.command: docker buildx version
+      changed_when: false
+      register: docker_cli_plugin_test_output
+    - name: Output of 'docker buildx version'
       ansible.builtin.debug:
         msg: '{{ docker_cli_plugin_test_output.stdout }}'

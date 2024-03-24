@@ -6,3 +6,4 @@ docker_cli_plugin_binary_install_dirs:
 docker_cli_plugin_install_dirs:
   usr: '{{ ansible_env.HOME }}/.docker/cli-plugins'
   sys: /usr/local/lib/docker/cli-plugins
+docker_cli_plugin_v_dot: false

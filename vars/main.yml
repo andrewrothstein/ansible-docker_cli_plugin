@@ -3,7 +3,10 @@ docker_cli_plugin_os: '{{ ansible_system | lower }}'
 docker_cli_plugin_arch: '{{ docker_cli_plugin_arch_map[ansible_architecture] }}'
 
 docker_cli_plugin_platform: '{{ docker_cli_plugin_os }}-{{ docker_cli_plugin_arch }}'
-docker_cli_plugin_exe: '{{ docker_cli_plugin_name }}-{{ docker_cli_plugin_platform }}'
+docker_cli_plugin_exe: >-
+  {{ docker_cli_plugin_name }}-
+  {%- if docker_cli_plugin_v_dot %}v{{ docker_cli_plugin_ver }}.{%- endif -%}
+  {{- docker_cli_plugin_platform }}
 
 docker_cli_plugin_url: '{{ docker_cli_plugin_mirror }}/v{{ docker_cli_plugin_ver }}/{{ docker_cli_plugin_exe }}'
 docker_cli_plugin_checksum: '{{ docker_cli_plugin_checksums[docker_cli_plugin_ver][docker_cli_plugin_platform] }}'
@@ -12,6 +15,9 @@ docker_cli_plugin_binary_install_dir: '{{ docker_cli_plugin_binary_install_dirs[
 docker_cli_plugin_install_dir: '{{ docker_cli_plugin_install_dirs[docker_cli_plugin_persona] }}'
 
 docker_cli_plugin_binary_install_exe: '{{ docker_cli_plugin_binary_install_dir }}/{{ docker_cli_plugin_name }}-{{ docker_cli_plugin_ver }}'
-docker_cli_plugin_install_link: '{{ docker_cli_plugin_install_dir }}/{{ docker_cli_plugin_name }}'
+docker_cli_plugin_install_link: >-
+  {{ docker_cli_plugin_install_dir }}/
+  {%- if not docker_cli_plugin_name.startswith("docker-") %}docker-{% endif %}
+  {{- docker_cli_plugin_name -}}
 
 docker_cli_plugin_escalate: '{{ docker_cli_plugin_persona == "sys" }}'
