@@ -1,0 +1,28 @@
+---
+- name: Mkdirs
+  with_items:
+    - '{{ docker_cli_plugin_binary_install_dir }}'
+    - '{{ docker_cli_plugin_install_dir }}'
+  become: '{{ docker_cli_plugin_escalate | bool }}'
+  become_user: root
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: directory
+    mode: '755'
+
+- name: Downloading {{ docker_cli_plugin_url }} to {{ docker_cli_plugin_binary_install_exe }}
+  become: '{{ docker_cli_plugin_escalate | bool }}'
+  become_user: root
+  ansible.builtin.get_url:
+    url: '{{ docker_cli_plugin_url }}'
+    dest: '{{ docker_cli_plugin_binary_install_exe }}'
+    checksum: '{{ docker_cli_plugin_checksum }}'
+    mode: '755'
+
+- name: Linking {{ docker_cli_plugin_install_link }} to {{ docker_cli_plugin_binary_install_exe }}
+  become: '{{ docker_cli_plugin_escalate | bool }}'
+  become_user: root
+  ansible.builtin.file:
+    src: '{{ docker_cli_plugin_binary_install_exe }}'
+    dest: '{{ docker_cli_plugin_install_link }}'
+    state: link

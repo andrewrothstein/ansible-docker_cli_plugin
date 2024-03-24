@@ -1,0 +1,8 @@
+---
+docker_cli_plugin_persona: sys
+docker_cli_plugin_binary_install_dirs:
+  usr: '{{ ansible_env.HOME }}/.local/bin'
+  sys: /usr/local/bin
+docker_cli_plugin_install_dirs:
+  usr: '{{ ansible_env.HOME }}/.docker/cli-plugins'
+  sys: /usr/local/lib/docker/cli-plugins

@@ -1,0 +1,31 @@
+---
+galaxy_info:
+  author: Andrew Rothstein
+  company: BlackRock
+  description: role to facilitate installing docker cli plugins
+  galaxy_tags:
+    - development
+  license: MIT
+  min_ansible_version: '1.2'
+  namespace: andrewrothstein
+  platforms:
+    - name: ArchLinux
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - bookworm
+        - bullseye
+    - name: EL
+      versions:
+        - '8'
+        - '9'
+    - name: Fedora
+      versions:
+        - '38'
+        - '39'
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+  role_name: docker_cli_plugin
