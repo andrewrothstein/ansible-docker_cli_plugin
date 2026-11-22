@@ -1,8 +1,10 @@
 ---
 - name: Installing andrewrothstein.docker_binaries for testing
   hosts: all
-  roles:
-    - role: andrewrothstein.docker_binaries
+  tasks:
+    - name: Installing andrewrothstein.docker_binaries
+      ansible.builtin.include_role:
+        name: andrewrothstein.docker_binaries
 - name: Testing andrewrothstein.docker_cli_plugin (docker-compose)
   hosts: all
   vars:
