@@ -14,6 +14,7 @@
     docker_cli_plugin_mirror: https://github.com/docker/compose/releases/download
     docker_cli_plugin_arch_map:
       x86_64: x86_64
+      aarch64: aarch64
     docker_cli_plugin_checksums:
       '2.26.0':
         # https://github.com/docker/compose/releases/download/v2.26.0/docker-compose-darwin-aarch64
