@@ -1,8 +1,10 @@
 ---
 - name: Installing andrewrothstein.docker_binaries for testing
   hosts: all
-  roles:
-    - role: andrewrothstein.docker_binaries
+  tasks:
+    - name: Installing andrewrothstein.docker_binaries
+      ansible.builtin.include_role:
+        name: andrewrothstein.docker_binaries
 - name: Testing andrewrothstein.docker_cli_plugin (docker-compose)
   hosts: all
   vars:
@@ -12,6 +14,7 @@
     docker_cli_plugin_mirror: https://github.com/docker/compose/releases/download
     docker_cli_plugin_arch_map:
       x86_64: x86_64
+      aarch64: aarch64
     docker_cli_plugin_checksums:
       '2.26.0':
         # https://github.com/docker/compose/releases/download/v2.26.0/docker-compose-darwin-aarch64
